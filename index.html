@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJAX, JQuery, JSON</title>
+    <style>
+        div { border: solid 1pt brown; width: 500px; height: 150px; padding: 10px; margin: 10px; }
+    </style>
+    <script src="jquery-3.7.1.min.js"></script>
+</head>
+<body>
+    <h1>AJAX, JQuery, JSON</h1>
+    <h2>AJAX without jQuery</h2>
+    <button onclick="loadContent()">Get file without jQuery</button>
+    <div id="divAjax"></div>
+    <script>
+        function loadContent() {
+            let xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("divAjax").innerHTML = this.responseText;
+                }
+            };
+            xhr.open("GET", "about.txt", true);
+            xhr.send();
+        }
+    </script>
+    <h2>AJAX with JQuery</h2>
+    <button id="btnAjax">Get file with jQuery</button>
+    <div id="divAJ"></div>
+    <script>
+        $("#btnAjax").click(function() {
+            $.ajax({ url: "about.txt", success: function(result) { $("#divAJ").html(result); } });
+        });
+    </script>
+    <h3>Get JSON</h3>
+    <button id="btnJson">Get JSON</button>
+    <div id="divJson"></div>
+    <script>
+        $("#btnJson").click(function() {
+            $.getJSON('lab.json', function(result) {
+                $("#divJson").html("No. " + result.no + "<br> Topic: " + result.topic);
+            });
+        });
+    </script>
+    <h3>Parse JSON</h3>
+    <button id="btnp">Parse</button>
+    <div id="divp"></div>
+    <script>
+        $("#btnp").click(function() {
+            let obj = JSON.parse('{"no":1, "topic":"jQuery"}');
+            $("#divp").html("No: " + obj.no + "<br>Topic: " + obj.topic);
+        });
+    </script>
+</body>
+</html>
